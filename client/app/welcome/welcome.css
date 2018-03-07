@@ -12,6 +12,9 @@
   line-height: 1;
   letter-spacing: -1px;
 }
+.invalid-feedback{
+  color: red;
+}
 
 .hero-unit {
   position: relative;
@@ -43,14 +46,14 @@ hr {
 body {
   background: url(bgimg.jpg);
   background-size: cover;
-  background-position: center; 
+  background-position: center;
   background-attachment: fixed;
 }
 
 html {
   width: 100%;
   height: 100%;
- 
+
 }
 
 h1 {

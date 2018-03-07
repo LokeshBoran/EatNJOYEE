@@ -1,43 +1,67 @@
-import angular from 'angular';
-import uiRouter from 'angular-ui-router';
-import routing from './welcome.routes';
+import angular from "angular";
+import uiRouter from "angular-ui-router";
+import routing from "./welcome.routes";
 
 export class welcomecontroller {
   items = [];
-  newItem = '';
+  newItem = {};
 
   /*@ngInject*/
-  constructor($http, $scope, socket) {
+  constructor($http, $scope, socket, $uibModal) {
     this.$http = $http;
     this.socket = socket;
+    this.$uibModal = $uibModal;
 
-    $scope.$on('$destroy', function() {
-      socket.unsyncUpdates('item');
+    $scope.$on("$destroy", function() {
+      socket.unsyncUpdates("item");
     });
   }
 
   $onInit() {
-    this.$http.get('/api/items')
-      .then(response => {
-        this.items = response.data;
-        this.socket.syncUpdates('item', this.items);
-      });
+    this.$http.get("/api/items").then(response => {
+      this.items = response.data;
+      this.socket.syncUpdates("item", this.items);
+    });
   }
 
   addItem() {
-    if(this.newItem) {
-      this.$http.post('/api/items', 
-      this.newItem
+    this.newItem = {};
+    var vm = this;
+    var modalInstance = this.$uibModal.open({
+      template: require("./add-item.html"),
+      windowClass: "modal-default",
+      controller: welcomecontroller,
+      controllerAs: "vm"
+    });
+
+    modalInstance.result.then(
+      function(from) {
+        console.log(from);
+        vm.newItem = {};
+      },
+      function() {
+        console.log("modal-component dismissed at: " + new Date());
+      }
     );
-      this.newItem = '';
+  }
+
+  saveItem(form, $close) {
+    if (form.$invalid) {
+      return;
+    }
+    if (this.newItem) {
+      this.$http.post("/api/items", this.newItem).then(function(res) {
+        $close(res.data);
+      });
     }
   }
 }
 
-export default angular.module('eatnjoyApp.welcome', [uiRouter])
+export default angular
+  .module("eatnjoyApp.welcome", [uiRouter])
   .config(routing)
-  .component('welcome', {
-    template: require('./welcome.html'),
-    controller: welcomecontroller
-  })
-  .name;
+  .component("welcome", {
+    template: require("./welcome.html"),
+    controller: welcomecontroller,
+    controllerAs: "vm"
+  }).name;

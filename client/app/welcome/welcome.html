@@ -1,0 +1,36 @@
+
+<div class="container">
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+      <button type="button" ng-click="vm.addItem()" class="btn btn-primary">Add</button>
+
+    </div>
+  </div>
+
+
+  <div class="table-responsive">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Food Item Name</th>
+          <th>Price</th>
+          <th>Ingredients</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="item in vm.items">
+          <td>{{item.name}}</td>
+          <td>{{item.foodItemName}}</td>
+          <td>{{item.price}}</td>
+          <td>{{item.ingredients}}</td>
+          <td>{{item.active?'Active':'Inactive'}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
