@@ -28,13 +28,13 @@
           mongoose-error/>
           <!-- <p class="help-block" ng-show="form.phone.$error.required || form.phone.$error.number && vm.submitted">
             Doesn't look like a valid Phone Number.
+          </p>  -->
+          <p class="help-block" ng-show="form.phone.$dirty && form.phone.$error.minlength && vm.submitted">
+           Phone Number Should be 10 Digits.
           </p> 
-        <p class="help-block" ng-show="form.phone.$error.phone && vm.submitted">
-            Doesn't look like a valid Phone Number.
-          </p>    
           <p class="help-block" ng-show="form.email.$error.required && vm.submitted">
-            What's your email address?
-          </p> -->
+           Phone Number is required.
+          </p> 
           <p class="help-block" ng-show="form.phone.$error.mongoose">
             {{ vm.errors.phone }}
           </p>
@@ -51,7 +51,7 @@
             Doesn't look like a valid email.
           </p>
           <p class="help-block" ng-show="form.email.$error.required && vm.submitted">
-            What's your email address?
+           Email address is required.
           </p>
           <p class="help-block" ng-show="form.email.$error.mongoose">
             {{ vm.errors.email }}

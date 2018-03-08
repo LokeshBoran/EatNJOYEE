@@ -1,5 +1,8 @@
   'use strict';
 
+  import angular from 'angular';
+
+
 export default class LoginController {
   user = {
     name: '',
@@ -7,7 +10,7 @@ export default class LoginController {
     password: ''
   };
   errors = {
-    login: undefined
+     login: undefined
   };
   submitted = false;
 
@@ -21,7 +24,9 @@ export default class LoginController {
   login(form) {
     this.submitted = true;
 
-    if(form.$valid) {
+    if(form.$valid) 
+    {
+      this.invalidlogin = false;
       this.Auth.login({
         email: this.user.email,
         password: this.user.password
@@ -31,7 +36,11 @@ export default class LoginController {
           this.$state.go('welcome');
         })
         .catch(err => {
-          this.errors.login = err.message;
+          // this.errors.login = err.message;
+          err = err.data;
+          this.errors = {};
+          // Update validity of form fields that match the mongoose errors
+          this.invalidlogin = true;
         });
     }
   }

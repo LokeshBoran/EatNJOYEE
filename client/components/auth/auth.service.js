@@ -199,7 +199,7 @@ export function AuthService($location, $http, $cookies, $q, appConfig, Util, Use
      * @return {Bool|Promise}
      */
     isAdmin(...args) {
-      return Auth.hasRole(Reflect.apply([].concat, ['admin'], args));
+      return Auth.hasRole(Reflect.apply([].concat, ['manager'], args));
     },
 
     /**
@@ -209,7 +209,7 @@ export function AuthService($location, $http, $cookies, $q, appConfig, Util, Use
      */
     isAdminSync() {
       // eslint-disable-next-line no-sync
-      return Auth.hasRoleSync('admin');
+      return Auth.hasRoleSync('manager');
     },
 
     /**
