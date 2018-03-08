@@ -7,10 +7,13 @@ export class welcomecontroller {
   newItem = {};
 
   /*@ngInject*/
-  constructor($http, $scope, socket, $uibModal) {
+  constructor($http, $scope, socket, $uibModal, Auth) {
     this.$http = $http;
     this.socket = socket;
     this.$uibModal = $uibModal;
+    this.isLoggedIn = Auth.isLoggedInSync;
+    this.isAdmin = Auth.isAdminSync;
+    this.getCurrentUser = Auth.getCurrentUserSync;
 
     $scope.$on("$destroy", function() {
       socket.unsyncUpdates("item");
@@ -18,6 +21,10 @@ export class welcomecontroller {
   }
 
   $onInit() {
+    this.getItem();
+  }
+
+  getItem(){
     this.$http.get("/api/items").then(response => {
       this.items = response.data;
       this.socket.syncUpdates("item", this.items);
@@ -37,8 +44,10 @@ export class welcomecontroller {
     modalInstance.result.then(
       function(from) {
         console.log(from);
+        this.getItem();
         vm.newItem = {};
       },
+      
       function() {
         console.log("modal-component dismissed at: " + new Date());
       }
